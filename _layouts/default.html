@@ -1,20 +1,66 @@
-<!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: "en" }}">
-
-  {% include head.html %}
-
-  <body>
-
-    {% include header.html %}
-
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+    <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}"> {% assign custom_url = site.url | append: site.baseurl %} {% assign full_base_url = custom_url | default: site.github.url  %}
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: full_base_url }}">
+    <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="/feed.xml">
+</head>
+<body>
+    <header class="site-header" role="banner">
+        <div class="wrapper">
+            <!-- Main title -->
+            <a class="site-title" href="/">{{ site.title | escape }}</a>
+            <!-- List of pages on right hand side-->
+            <nav class="site-nav">
+                <div class="trigger">
+                    {% for my_page in site.pages %} {% if my_page.title %}
+                    <a class="page-link" href="{{ my_page.url | prepend: full_base_url }}">{{ my_page.title | escape }}</a> {% endif
+                    %} {% endfor %}
+                </div>
+            </nav>
+        </div>
+    </header>
     <main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        {{ content }}
-      </div>
+        <div class="wrapper">
+            {{ content }}
+        </div>
     </main>
+    <footer class="site-footer">
+        <div class="wrapper">
+            <h2 class="footer-heading">{{ site.title | escape }}</h2>
+            <div class="footer-col-wrapper">
+                <div class="footer-col footer-col-1">
+                    <ul class="contact-list">
+                        <li>
+                            {% if site.author %} {{ site.author | escape }} {% else %} {{ site.title | escape }} {% endif %}
+                        </li>
+                        <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-col-2">
+                    <ul class="social-media-list">
+                        {% if site.github_username %}
+                        <li>
+                            {% include icon-github.html username=site.github_username %}
+                        </li>
+                        {% endif %} {% if site.twitter_username %}
+                        <li>
+                            {% include icon-twitter.html username=site.twitter_username %}
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="footer-col footer-col-3">
+                    <p>{{ site.description | escape }}</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-    {% include footer.html %}
-
-  </body>
-
+</body>
 </html>
